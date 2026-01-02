@@ -2,7 +2,7 @@
  * POO Explorer - Componente interactivo con tabs para explorar principios
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Importar demos de POO
 import { demoBad as encapBad } from "../poo/principles/encapsulation/bad";
@@ -961,6 +961,48 @@ export const POOExplorer: React.FC = () => {
     bad: false,
     good: false,
   });
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    // Intentar recuperar preferencia guardada o usar preferencia del sistema
+    const saved = localStorage.getItem("poo-explorer-dark-mode");
+    if (saved !== null) return saved === "true";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  // Guardar preferencia de modo oscuro
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => {
+      localStorage.setItem("poo-explorer-dark-mode", String(!prev));
+      return !prev;
+    });
+  };
+
+  // Actualizar el color del body cuando cambie el modo
+  useEffect(() => {
+    document.body.style.backgroundColor = darkMode ? "#1a1a2e" : "#f5f5f5";
+    document.documentElement.style.backgroundColor = darkMode
+      ? "#1a1a2e"
+      : "#f5f5f5";
+  }, [darkMode]);
+
+  // Estilos dinámicos basados en el modo
+  const theme = {
+    bg: darkMode ? "#1a1a2e" : "#f8f9fa",
+    cardBg: darkMode ? "#16213e" : "white",
+    text: darkMode ? "#eaeaea" : "#333",
+    textMuted: darkMode ? "#a0a0a0" : "#666",
+    border: darkMode ? "#0f3460" : "#dee2e6",
+    keyPointBg: darkMode ? "#0f3460" : "#e8f4f8",
+    keyPointText: darkMode ? "#64b5f6" : "#2c5282",
+    tipBg: darkMode ? "#3d3d00" : "#fff3cd",
+    tipBorder: darkMode ? "#ffc107" : "#ffc107",
+    tipText: darkMode ? "#ffd54f" : "#856404",
+    categoryInactiveBg: darkMode ? "#0f3460" : "#e9ecef",
+    categoryInactiveText: darkMode ? "#a0a0a0" : "#495057",
+    principleTabBg: darkMode ? "#16213e" : "white",
+    principleTabBorder: darkMode ? "#0f3460" : "#dee2e6",
+    referenceBg: darkMode ? "#0f3460" : "#f8f9fa",
+    referenceText: darkMode ? "#a0a0a0" : "#555",
+  };
 
   const principles = category === "poo" ? pooPrinciples : solidPrinciples;
   const currentPrinciple =
@@ -1005,9 +1047,32 @@ export const POOExplorer: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={{ ...styles.container, backgroundColor: theme.bg }}>
       {/* Header */}
       <header style={styles.header}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "10px",
+          }}
+        >
+          <button
+            onClick={toggleDarkMode}
+            style={{
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "20px",
+              cursor: "pointer",
+              fontSize: "14px",
+              backgroundColor: darkMode ? "#ffd54f" : "#1a1a2e",
+              color: darkMode ? "#1a1a2e" : "#ffd54f",
+              transition: "all 0.3s",
+            }}
+          >
+            {darkMode ? "☀️ Modo Claro" : "🌙 Modo Oscuro"}
+          </button>
+        </div>
         <h1 style={styles.title}>🎓 POO & SOLID Explorer</h1>
         <p style={styles.subtitle}>
           Aprende principios de Programación Orientada a Objetos con ejemplos
@@ -1022,7 +1087,10 @@ export const POOExplorer: React.FC = () => {
             ...styles.categoryTab,
             ...(category === "poo"
               ? styles.categoryTabActive
-              : styles.categoryTabInactive),
+              : {
+                  backgroundColor: theme.categoryInactiveBg,
+                  color: theme.categoryInactiveText,
+                }),
           }}
           onClick={() => handleCategoryChange("poo")}
         >
@@ -1033,7 +1101,10 @@ export const POOExplorer: React.FC = () => {
             ...styles.categoryTab,
             ...(category === "solid"
               ? styles.categoryTabActive
-              : styles.categoryTabInactive),
+              : {
+                  backgroundColor: theme.categoryInactiveBg,
+                  color: theme.categoryInactiveText,
+                }),
           }}
           onClick={() => handleCategoryChange("solid")}
         >
@@ -1048,6 +1119,9 @@ export const POOExplorer: React.FC = () => {
             key={p.id}
             style={{
               ...styles.principleTab,
+              backgroundColor: theme.principleTabBg,
+              borderColor: theme.principleTabBorder,
+              color: theme.text,
               ...(selectedPrinciple === p.id ? styles.principleTabActive : {}),
             }}
             onClick={() => handlePrincipleChange(p.id)}
@@ -1058,26 +1132,42 @@ export const POOExplorer: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div style={styles.card}>
+      <div style={{ ...styles.card, backgroundColor: theme.cardBg }}>
         {/* Principle Header */}
         <div style={styles.principleHeader}>
-          <h2 style={styles.principleName}>
+          <h2 style={{ ...styles.principleName, color: theme.text }}>
             {currentPrinciple.emoji} {currentPrinciple.name}
           </h2>
-          <p style={styles.principleDesc}>{currentPrinciple.description}</p>
+          <p style={{ ...styles.principleDesc, color: theme.textMuted }}>
+            {currentPrinciple.description}
+          </p>
         </div>
 
         {/* Key Points */}
         <div style={styles.keyPointsList}>
           {currentPrinciple.keyPoints.map((point, i) => (
-            <div key={i} style={styles.keyPoint}>
+            <div
+              key={i}
+              style={{
+                ...styles.keyPoint,
+                backgroundColor: theme.keyPointBg,
+                color: theme.keyPointText,
+              }}
+            >
               ✓ {point}
             </div>
           ))}
         </div>
 
         {/* Interview Tip */}
-        <div style={styles.interviewTip}>
+        <div
+          style={{
+            ...styles.interviewTip,
+            backgroundColor: theme.tipBg,
+            borderColor: theme.tipBorder,
+            color: theme.tipText,
+          }}
+        >
           <strong>💡 Tip para entrevista:</strong>{" "}
           {currentPrinciple.interviewTip}
         </div>
@@ -1225,8 +1315,10 @@ export const POOExplorer: React.FC = () => {
       </div>
 
       {/* Quick Reference */}
-      <div style={{ ...styles.card, backgroundColor: "#f8f9fa" }}>
-        <h3 style={{ margin: "0 0 15px 0", fontSize: "16px" }}>
+      <div style={{ ...styles.card, backgroundColor: theme.referenceBg }}>
+        <h3
+          style={{ margin: "0 0 15px 0", fontSize: "16px", color: theme.text }}
+        >
           📚 Referencia Rápida
         </h3>
         <div
@@ -1237,13 +1329,13 @@ export const POOExplorer: React.FC = () => {
           }}
         >
           <div>
-            <strong>POO Básico:</strong>
+            <strong style={{ color: theme.text }}>POO Básico:</strong>
             <ul
               style={{
                 margin: "5px 0",
                 paddingLeft: "20px",
                 fontSize: "13px",
-                color: "#555",
+                color: theme.referenceText,
               }}
             >
               <li>
@@ -1266,13 +1358,13 @@ export const POOExplorer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <strong>SOLID:</strong>
+            <strong style={{ color: theme.text }}>SOLID:</strong>
             <ul
               style={{
                 margin: "5px 0",
                 paddingLeft: "20px",
                 fontSize: "13px",
-                color: "#555",
+                color: theme.referenceText,
               }}
             >
               <li>
