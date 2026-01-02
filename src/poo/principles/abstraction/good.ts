@@ -1,112 +1,112 @@
 /**
  * ✅ ABSTRACCIÓN - BUEN EJEMPLO
  *
- * Solución: Interfaz que define QUÉ hace el servicio, no CÓMO lo hace.
- * El cliente solo conoce el contrato, los detalles están ocultos.
+ * Solución: Definimos una INTERFAZ (abstracción) que oculta los detalles.
+ * El componente React solo sabe que puede "getUser" y "createUser",
+ * NO sabe si usa fetch, axios, localStorage, o mock data.
  */
 
-// ✅ Interfaz - Define el contrato (QUÉ)
-export interface NotificationService {
-  send(
-    to: string,
-    subject: string,
-    message: string
-  ): Promise<NotificationResult>;
-}
+// ✅ ABSTRACCIÓN: Interface define el "QUÉ" (contrato), no el "CÓMO"
+export type ApiClient = {
+  get<T>(endpoint: string): Promise<T | null>;
+  post<T>(endpoint: string, data: unknown): Promise<T | null>;
+};
 
-export interface NotificationResult {
-  success: boolean;
-  message: string;
-}
+// ✅ Servicio de usuarios que depende de la abstracción
+export class UserService {
+  // ✅ Depende de la interfaz, NO de implementación concreta
+  constructor(private apiClient: ApiClient) {}
 
-// ✅ Implementación Email - Oculta detalles SMTP
-export class EmailNotificationService implements NotificationService {
-  private smtpServer = "smtp.gmail.com";
-  private port = 587;
+  async getUser(id: string): Promise<{ name: string; email: string } | null> {
+    // ✅ No sabe SI es fetch, axios, o mock - solo usa el contrato
+    return this.apiClient.get(`/users/${id}`);
+  }
 
-  async send(
-    to: string,
-    subject: string,
-    _message: string
-  ): Promise<NotificationResult> {
-    // ✅ Todos los detalles de SMTP están OCULTOS aquí
-    console.log(`[SMTP] Conectando a ${this.smtpServer}:${this.port}`);
-    console.log(`[SMTP] Enviando a ${to}`);
-
-    // Simular envío
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    return {
-      success: true,
-      message: `Email enviado a ${to}: "${subject}"`,
-    };
+  async createUser(
+    name: string,
+    email: string
+  ): Promise<{ id: string } | null> {
+    // ✅ Misma simplicidad - sin conocer detalles HTTP
+    return this.apiClient.post("/users", { name, email });
   }
 }
 
-// ✅ Implementación SMS - Misma interfaz, diferente implementación
-export class SMSNotificationService implements NotificationService {
-  private apiKey = "twilio-api-key";
+// ✅ IMPLEMENTACIÓN 1: Fetch real
+export class FetchApiClient {
+  constructor(private baseUrl: string, private token: string) {}
 
-  async send(
-    to: string,
-    _subject: string,
-    message: string
-  ): Promise<NotificationResult> {
-    // ✅ Detalles de Twilio API ocultos
-    console.log(`[SMS] Usando API Key: ${this.apiKey.substring(0, 5)}...`);
+  async get<T>(endpoint: string): Promise<T | null> {
+    try {
+      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+        headers: { Authorization: `Bearer ${this.token}` },
+      });
+      return response.ok ? await response.json() : null;
+    } catch {
+      return null;
+    }
+  }
 
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    return {
-      success: true,
-      message: `SMS enviado a ${to}: "${message.substring(0, 20)}..."`,
-    };
+  async post<T>(endpoint: string, data: unknown): Promise<T | null> {
+    try {
+      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      return response.ok ? await response.json() : null;
+    } catch {
+      return null;
+    }
   }
 }
 
-// ✅ Implementación Push - Otra implementación más
-export class PushNotificationService implements NotificationService {
-  async send(
-    to: string,
-    subject: string,
-    _message: string
-  ): Promise<NotificationResult> {
-    await new Promise((resolve) => setTimeout(resolve, 100));
+// ✅ IMPLEMENTACIÓN 2: Mock para tests (mismo contrato)
+export class MockApiClient {
+  private users = new Map([
+    ["1", { id: "1", name: "Juan", email: "juan@example.com" }],
+  ]);
 
-    return {
-      success: true,
-      message: `Push enviado al dispositivo ${to}: "${subject}"`,
-    };
+  async get<T>(endpoint: string): Promise<T | null> {
+    const id = endpoint.split("/").pop();
+    return (this.users.get(id!) as T) || null;
+  }
+
+  async post<T>(endpoint: string, data: unknown): Promise<T | null> {
+    const newUser = { id: "2", ...data };
+    return newUser as T;
   }
 }
 
-// ✅ EJEMPLO DE USO - El cliente NO conoce los detalles
+// ✅ EJEMPLO DE USO
 export async function demoGood(): Promise<string[]> {
   const logs: string[] = [];
 
-  // ✅ El cliente trabaja con la ABSTRACCIÓN, no con implementaciones
-  async function notifyUser(
-    service: NotificationService,
-    user: string
-  ): Promise<string> {
-    const result = await service.send(
-      user,
-      "Bienvenido",
-      "Gracias por registrarte"
-    );
-    return result.message;
-  }
+  logs.push("✅ Ventajas de la abstracción:");
+  logs.push("");
 
-  // ✅ Podemos cambiar la implementación sin cambiar el código cliente
-  const emailService = new EmailNotificationService();
-  const smsService = new SMSNotificationService();
-  const pushService = new PushNotificationService();
+  // ✅ Tu componente React puede cambiar de implementación SIN cambiar código
+  const mockClient = new MockApiClient();
+  const userService = new UserService(mockClient);
 
-  logs.push(await notifyUser(emailService, "user@email.com"));
-  logs.push(await notifyUser(smsService, "+1234567890"));
-  logs.push(await notifyUser(pushService, "device-token-xyz"));
+  const user = await userService.getUser("1");
+  logs.push(`Usuario obtenido: ${user?.name} (${user?.email})`);
 
-  logs.push("✅ Mismo código cliente, 3 implementaciones diferentes");
+  logs.push("");
+  logs.push("1. El servicio NO conoce si usa fetch, axios o mocks");
+  logs.push(
+    "2. Fácil cambiar de fetch a axios (solo cambias la implementación)"
+  );
+  logs.push("3. Fácil de testear (inyectas MockApiClient)");
+  logs.push("4. Un solo lugar para lógica HTTP");
+  logs.push("5. Tu componente React solo hace: userService.getUser(id)");
+  logs.push("");
+  logs.push("🎯 En entrevista:");
+  logs.push("'La abstracción me permite cambiar de fetch a axios");
+  logs.push("sin tocar mis componentes React, solo cambio la");
+  logs.push("implementación de ApiClient que inyecto'");
 
   return logs;
 }

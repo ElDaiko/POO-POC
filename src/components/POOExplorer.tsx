@@ -116,57 +116,63 @@ account.balance = -500;     // ¡Balance negativo!`,
     badDemo: absBad,
     goodDemo: absGood,
     badCode: {
-      title: "❌ El cliente conoce TODOS los detalles",
-      code: `class EmailSenderBad {
-  public smtpServer = "smtp.gmail.com";
-  public port = 587;
-  
-  connect(): void { /* ... */ }
-  authenticate(): void { /* ... */ }
-  formatMessage(to, subject, body): string { /* ... */ }
-  sendRaw(message: string): void { /* ... */ }
-  disconnect(): void { /* ... */ }
-}
-
-// ❌ El cliente hace TODO el trabajo
-sender.connect();
-sender.authenticate();
-const msg = sender.formatMessage(to, subject, body);
-sender.sendRaw(msg);
-sender.disconnect();`,
-      explanation:
-        "El código cliente necesita conocer el protocolo SMTP completo. Si cambias a SendGrid, debes reescribir TODO el código que usa esta clase.",
-    },
-    goodCode: {
-      title: "✅ Interfaz simple, detalles ocultos",
-      code: `// ✅ Interfaz define QUÉ, no CÓMO
-interface NotificationService {
-  send(to: string, subject: string, message: string): Promise<Result>;
-}
-
-// ✅ Implementación oculta los detalles
-class EmailService implements NotificationService {
-  async send(to, subject, message) {
-    // Toda la complejidad SMTP está OCULTA aquí
-    return { success: true };
+      title: "❌ Componente React conoce detalles HTTP",
+      code: `// ❌ El servicio tiene detalles de fetch/HTTP
+class UserServiceBad {
+  async getUser(id: string) {
+    // ❌ Headers, URL, parsing... todo expuesto
+    const response = await fetch(\`https://api.com/users/\${id}\`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer token-123"
+      }
+    });
+    return response.ok ? await response.json() : null;
   }
 }
 
-// ✅ El cliente solo conoce la interfaz
-const service: NotificationService = new EmailService();
-await service.send("user@email.com", "Hola", "Mensaje");
-// ¡Puedo cambiar a SMSService sin cambiar este código!`,
+// ❌ PROBLEMA: Si cambio de fetch a axios, reescribo TODO
+// ❌ Difícil de testear (necesita fetch real)
+// ❌ Los componentes están acoplados a fetch`,
       explanation:
-        "El cliente solo conoce el método 'send'. Puedes cambiar de Email a SMS o Push sin modificar el código que consume el servicio.",
+        "El servicio conoce detalles HTTP (headers, métodos). Si cambias de fetch a axios, debes reescribir todo. Difícil testear sin mock de fetch.",
+    },
+    goodCode: {
+      title: "✅ Interfaz TypeScript oculta implementación",
+      code: `// ✅ Interfaz define el contrato
+type ApiClient = {
+  get<T>(endpoint: string): Promise<T | null>;
+  post<T>(endpoint: string, data: unknown): Promise<T | null>;
+}
+
+// ✅ Tu servicio depende de la abstracción
+class UserService {
+  constructor(private apiClient: ApiClient) {}
+  
+  async getUser(id: string) {
+    return this.apiClient.get(\`/users/\${id}\`);
+  }
+}
+
+// ✅ Implementaciones intercambiables
+class FetchApiClient implements ApiClient { /* fetch */ }
+class MockApiClient implements ApiClient { /* tests */ }
+
+// ✅ Tu componente React:
+const service = new UserService(new FetchApiClient());
+const user = await service.getUser("1");`,
+      explanation:
+        "El UserService NO sabe si usa fetch, axios o mocks. Puedes cambiar de implementación sin tocar componentes React. Perfecto para tests.",
     },
     keyPoints: [
-      "Interfaces definen contratos",
-      "Implementaciones ocultan detalles",
-      "El cliente no conoce el 'cómo'",
-      "Facilita cambiar implementaciones",
+      "Interfaces TypeScript = contratos",
+      "Separa el QUÉ del CÓMO",
+      "Facilita testing con mocks",
+      "Cambiar de fetch a axios sin tocar componentes",
     ],
     interviewTip:
-      "La abstracción permite trabajar con conceptos de alto nivel sin preocuparse por detalles de implementación.",
+      "La abstracción en TypeScript se logra con interfaces. Me permite cambiar de fetch a axios sin tocar mis componentes React.",
   },
   {
     id: "inheritance",
