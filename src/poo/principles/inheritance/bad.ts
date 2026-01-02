@@ -1,6 +1,6 @@
 /**
  * ❌ HERENCIA - MAL EJEMPLO
- * 
+ *
  * Problema: Usar herencia cuando NO hay relación "es-un".
  * Un Pato NO ES un Avión, aunque ambos puedan "volar".
  */
@@ -71,9 +71,11 @@ export function demoBad(): string[] {
   logs.push(duck.fly());
   logs.push(duck.refuel()); // ❓ ¿Repostar un pato?
   logs.push(`⚠️ Fuel del pato: ${duck["fuel"]}`); // ❓ ¿Combustible?
-  
+
   logs.push("");
-  logs.push("❌ Problema: Duck tiene propiedades y métodos que no le corresponden");
+  logs.push(
+    "❌ Problema: Duck tiene propiedades y métodos que no le corresponden"
+  );
   logs.push("❌ Un Pato NO ES un Avión, solo comparten que pueden volar");
 
   return logs;

@@ -20,66 +20,76 @@ Abre http://localhost:5173 para explorar los ejemplos interactivos.
 ## 📦 POO Básico
 
 ### 🔒 Encapsulamiento
+
 **Definición:** Ocultar el estado interno y exponer solo métodos controlados.
 
-| Malo | Bueno |
-|------|-------|
-| `public balance` | `private _balance` + getter |
+| Malo                | Bueno                              |
+| ------------------- | ---------------------------------- |
+| `public balance`    | `private _balance` + getter        |
 | Cualquiera modifica | Solo métodos controlados modifican |
 
 **Frase para entrevista:**
+
 > "El encapsulamiento protege la integridad del estado. Sin él, cualquier parte del código puede corromper los datos del objeto."
 
 ---
 
 ### 🎭 Abstracción
+
 **Definición:** Exponer QUÉ hace un objeto, ocultando CÓMO lo hace.
 
-| Malo | Bueno |
-|------|-------|
-| Cliente conoce SMTP | Cliente conoce `NotificationService` |
-| Acoplado a implementación | Acoplado a interfaz |
+| Malo                      | Bueno                                |
+| ------------------------- | ------------------------------------ |
+| Cliente conoce SMTP       | Cliente conoce `NotificationService` |
+| Acoplado a implementación | Acoplado a interfaz                  |
 
 **Frase para entrevista:**
+
 > "La abstracción permite trabajar con conceptos de alto nivel sin preocuparse por detalles de implementación."
 
 ---
 
 ### 🌳 Herencia
+
 **Definición:** Crear clases basadas en otras. **Solo usar cuando hay relación ES-UN.**
 
-| Malo | Bueno |
-|------|-------|
+| Malo                    | Bueno                 |
+| ----------------------- | --------------------- |
 | `Duck extends Airplane` | `Duck extends Animal` |
-| Duck NO ES un Airplane | Duck SÍ ES un Animal |
+| Duck NO ES un Airplane  | Duck SÍ ES un Animal  |
 
 **Frase para entrevista:**
+
 > "La herencia es la relación más fuerte entre clases. Usarla incorrectamente crea acoplamiento difícil de romper."
 
 ---
 
 ### 🔄 Polimorfismo
+
 **Definición:** Objetos de diferentes tipos responden al mismo mensaje de forma diferente.
 
-| Malo | Bueno |
-|------|-------|
-| `switch(type)` | `payment.process()` |
+| Malo                            | Bueno                      |
+| ------------------------------- | -------------------------- |
+| `switch(type)`                  | `payment.process()`        |
 | Agregar tipo = modificar switch | Agregar tipo = nueva clase |
 
 **Frase para entrevista:**
+
 > "Si ves un switch que evalúa tipos, probablemente debería ser polimorfismo."
 
 ---
 
 ### 🧩 Composición > Herencia
+
 **Definición:** Construir objetos combinando otros objetos (TIENE-UN vs ES-UN).
 
-| Malo | Bueno |
-|------|-------|
-| `CleaningRobot extends Robot` | `CleaningRobot` tiene `cleaner` |
-| Hereda todo, incluso lo que no necesita | Solo tiene lo que necesita |
+| Malo                                    | Bueno                           |
+| --------------------------------------- | ------------------------------- |
+| `CleaningRobot extends Robot`           | `CleaningRobot` tiene `cleaner` |
+| Hereda todo, incluso lo que no necesita | Solo tiene lo que necesita      |
 
 **Frase para entrevista:**
+
 > "Favorezco composición sobre herencia porque es más flexible y evita los problemas de herencia múltiple."
 
 ---
@@ -87,6 +97,7 @@ Abre http://localhost:5173 para explorar los ejemplos interactivos.
 ## 🏛️ SOLID
 
 ### 1️⃣ Single Responsibility (SRP)
+
 **Una clase = una razón para cambiar.**
 
 ```typescript
@@ -97,6 +108,7 @@ Abre http://localhost:5173 para explorar los ejemplos interactivos.
 ---
 
 ### 🚪 Open/Closed (OCP)
+
 **Abierto a extensión, cerrado a modificación.**
 
 ```typescript
@@ -107,6 +119,7 @@ Abre http://localhost:5173 para explorar los ejemplos interactivos.
 ---
 
 ### 🔄 Liskov Substitution (LSP)
+
 **Subtipos deben ser sustituibles por sus tipos base.**
 
 ```typescript
@@ -117,6 +130,7 @@ Abre http://localhost:5173 para explorar los ejemplos interactivos.
 ---
 
 ### ✂️ Interface Segregation (ISP)
+
 **Interfaces pequeñas y específicas.**
 
 ```typescript
@@ -127,6 +141,7 @@ Abre http://localhost:5173 para explorar los ejemplos interactivos.
 ---
 
 ### ⬆️ Dependency Inversion (DIP)
+
 **Depender de abstracciones, no de implementaciones.**
 
 ```typescript
@@ -139,17 +154,21 @@ Abre http://localhost:5173 para explorar los ejemplos interactivos.
 ## 🎯 Cómo defender esto en entrevista
 
 ### Frase ganadora:
+
 > "Aplico principios de POO y SOLID para reducir acoplamiento y mejorar mantenibilidad. Uso composición sobre herencia, abstracciones para desacoplar, y cada clase tiene una sola responsabilidad."
 
 ### Preguntas comunes:
 
 **¿Por qué usar interfaces?**
+
 > "Para desacoplar. El código depende del contrato, no de la implementación. Esto facilita testing y permite cambiar implementaciones sin afectar el resto del código."
 
 **¿Cuándo usar herencia?**
+
 > "Solo cuando hay una relación ES-UN verdadera. Un Pato ES un Animal, entonces puede heredar. Un UserManager NO ES un AuthService, entonces debe usar composición."
 
 **¿Qué es inyección de dependencias?**
+
 > "Pasar las dependencias al constructor en lugar de crearlas internamente. Esto cumple DIP y facilita el testing con mocks."
 
 ---
@@ -178,16 +197,17 @@ src/poo/
 Cada carpeta contiene `bad.ts` y `good.ts` con ejemplos ejecutables.
 // ✅ Fácil de testear - dependencias inyectables
 test("login", async () => {
-  const mockAuth = new MockAuthService(true);
-  const mockStorage = new InMemoryStorageService();
-  const sessionManager = new SessionManager(mockStorage);
+const mockAuth = new MockAuthService(true);
+const mockStorage = new InMemoryStorageService();
+const sessionManager = new SessionManager(mockStorage);
 
-  const useCase = new LoginUserUseCase(mockAuth, sessionManager);
-  const result = await useCase.execute("test@test.com", "123456");
+const useCase = new LoginUserUseCase(mockAuth, sessionManager);
+const result = await useCase.execute("test@test.com", "123456");
 
-  expect(result.success).toBe(true);
-  expect(sessionManager.isActive()).toBe(true);
+expect(result.success).toBe(true);
+expect(sessionManager.isActive()).toBe(true);
 });
+
 ```
 
 ---
@@ -278,3 +298,4 @@ Antes de tu entrevista, verifica:
 ---
 
 _Creado para demostrar principios de POO en entrevistas técnicas._
+```

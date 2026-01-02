@@ -1,6 +1,6 @@
 /**
  * ✅ POLIMORFISMO - BUEN EJEMPLO
- * 
+ *
  * Solución: Cada tipo de pago es una clase que implementa la misma interfaz.
  * Para agregar un nuevo tipo, solo creas una nueva clase.
  */
@@ -15,11 +15,11 @@ interface PaymentMethod {
 // ✅ Cada tipo de pago es una clase independiente
 class CreditCardPayment implements PaymentMethod {
   readonly name = "Tarjeta de Crédito";
-  
+
   process(amount: number): string {
     return `💳 Procesando ${this.name}: $${amount}`;
   }
-  
+
   calculateFee(amount: number): number {
     return amount * 0.03; // 3%
   }
@@ -27,11 +27,11 @@ class CreditCardPayment implements PaymentMethod {
 
 class DebitCardPayment implements PaymentMethod {
   readonly name = "Tarjeta de Débito";
-  
+
   process(amount: number): string {
     return `💳 Procesando ${this.name}: $${amount}`;
   }
-  
+
   calculateFee(amount: number): number {
     return amount * 0.01; // 1%
   }
@@ -39,11 +39,11 @@ class DebitCardPayment implements PaymentMethod {
 
 class PayPalPayment implements PaymentMethod {
   readonly name = "PayPal";
-  
+
   process(amount: number): string {
     return `🅿️ Procesando ${this.name}: $${amount}`;
   }
-  
+
   calculateFee(amount: number): number {
     return amount * 0.04; // 4%
   }
@@ -51,11 +51,11 @@ class PayPalPayment implements PaymentMethod {
 
 class CryptoPayment implements PaymentMethod {
   readonly name = "Crypto";
-  
+
   process(amount: number): string {
     return `₿ Procesando ${this.name}: $${amount}`;
   }
-  
+
   calculateFee(amount: number): number {
     return amount * 0.005; // 0.5%
   }
@@ -64,11 +64,11 @@ class CryptoPayment implements PaymentMethod {
 // ✅ Agregar nuevo tipo es FÁCIL - solo crear nueva clase
 class ApplePayPayment implements PaymentMethod {
   readonly name = "Apple Pay";
-  
+
   process(amount: number): string {
     return `🍎 Procesando ${this.name}: $${amount}`;
   }
-  
+
   calculateFee(amount: number): number {
     return amount * 0.02; // 2%
   }
@@ -81,7 +81,9 @@ class PaymentProcessor {
     const results: string[] = [];
     results.push(method.process(amount));
     results.push(`  Fee: $${method.calculateFee(amount).toFixed(2)}`);
-    results.push(`  Total: $${(amount + method.calculateFee(amount)).toFixed(2)}`);
+    results.push(
+      `  Total: $${(amount + method.calculateFee(amount)).toFixed(2)}`
+    );
     return results;
   }
 }
@@ -101,7 +103,7 @@ export function demoGood(): string[] {
   ];
 
   // ✅ Mismo código procesa TODOS los tipos
-  methods.forEach(method => {
+  methods.forEach((method) => {
     logs.push(...processor.processPayment(method, amount));
     logs.push("");
   });
@@ -109,17 +111,19 @@ export function demoGood(): string[] {
   logs.push("✅ Ventajas:");
   logs.push("  - Agregar 'GooglePay' = crear nueva clase");
   logs.push("  - PaymentProcessor NUNCA cambia");
-  logs.push("  - Cumple Open/Closed: abierto a extensión, cerrado a modificación");
+  logs.push(
+    "  - Cumple Open/Closed: abierto a extensión, cerrado a modificación"
+  );
 
   return logs;
 }
 
-export { 
+export {
   CreditCardPayment,
   DebitCardPayment,
-  PayPalPayment, 
-  CryptoPayment, 
+  PayPalPayment,
+  CryptoPayment,
   ApplePayPayment,
-  PaymentProcessor 
+  PaymentProcessor,
 };
 export type { PaymentMethod };

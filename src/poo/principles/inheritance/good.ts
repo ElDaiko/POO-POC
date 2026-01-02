@@ -1,6 +1,6 @@
 /**
  * ✅ HERENCIA - BUEN EJEMPLO
- * 
+ *
  * Solución: Usar herencia SOLO cuando hay relación "es-un" verdadera.
  * Un Pato ES un Animal. Un Pato PUEDE volar (interfaz).
  */
@@ -105,16 +105,16 @@ export function demoGood(): string[] {
   const dog = new Dog();
 
   logs.push("--- Cosas que vuelan (Flyable) ---");
-  
+
   // ✅ Polimorfismo: mismo método, diferentes implementaciones
   const flyables: Flyable[] = [duck, airplane];
-  flyables.forEach(f => logs.push(f.fly()));
+  flyables.forEach((f) => logs.push(f.fly()));
 
   logs.push("");
   logs.push("--- Cosas que nadan (Swimmable) ---");
-  
+
   const swimmers: Swimmable[] = [duck, dog];
-  swimmers.forEach(s => logs.push(s.swim()));
+  swimmers.forEach((s) => logs.push(s.swim()));
 
   logs.push("");
   logs.push("--- Solo animales pueden comer ---");

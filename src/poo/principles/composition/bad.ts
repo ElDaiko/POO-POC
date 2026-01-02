@@ -1,6 +1,6 @@
 /**
  * ❌ COMPOSICIÓN VS HERENCIA - MAL EJEMPLO
- * 
+ *
  * Problema: Usar herencia para compartir código cuando no hay relación "es-un".
  * Resulta en jerarquías rígidas y código difícil de mantener.
  */
@@ -31,7 +31,7 @@ class CleaningRobotBad extends RobotBad {
     this.battery -= 20;
     return `🧹 Limpiando. Batería: ${this.battery}%`;
   }
-  
+
   // ❌ Hereda speak() pero un robot de limpieza no habla
   // No podemos "quitar" el método heredado
 }
@@ -43,7 +43,7 @@ class FlyingRobotBad extends RobotBad {
     this.battery -= 30;
     return `🚁 Volando. Batería: ${this.battery}%`;
   }
-  
+
   // ❌ También hereda speak() innecesariamente
 }
 
@@ -52,18 +52,18 @@ class FlyingRobotBad extends RobotBad {
 
 export function demoBad(): string[] {
   const logs: string[] = [];
-  
+
   const cleaner = new CleaningRobotBad();
   logs.push(cleaner.move());
   logs.push(cleaner.clean());
   logs.push(cleaner.speak()); // ❓ ¿Por qué un robot de limpieza habla?
-  
+
   logs.push("");
-  
+
   const flyer = new FlyingRobotBad();
   logs.push(flyer.fly());
   logs.push(flyer.speak()); // ❓ ¿Por qué un dron habla?
-  
+
   logs.push("");
   logs.push("❌ Problemas:");
   logs.push("  - Robots heredan métodos que no necesitan");

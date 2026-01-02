@@ -1,6 +1,6 @@
 /**
  * ❌ LSP (Liskov Substitution Principle) - MAL EJEMPLO
- * 
+ *
  * Problema: Las clases hijas NO pueden sustituir a la clase padre
  * sin romper el comportamiento esperado.
  */
@@ -47,15 +47,15 @@ class SquareBad extends RectangleBad {
 // ❌ Función que espera comportamiento de Rectangle
 function calculateAreaBad(rectangle: RectangleBad): string[] {
   const logs: string[] = [];
-  
+
   rectangle.setWidth(5);
   rectangle.setHeight(4);
-  
+
   logs.push(`Ancho establecido: 5`);
   logs.push(`Alto establecido: 4`);
   logs.push(`Área esperada: 20 (5 × 4)`);
   logs.push(`Área real: ${rectangle.getArea()}`);
-  
+
   return logs;
 }
 

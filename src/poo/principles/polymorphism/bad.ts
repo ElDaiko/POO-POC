@@ -1,6 +1,6 @@
 /**
  * ❌ POLIMORFISMO - MAL EJEMPLO
- * 
+ *
  * Problema: Usar condicionales (if/switch) en lugar de polimorfismo.
  * Cada vez que agregas un tipo, debes modificar TODOS los switch/if.
  */
@@ -67,7 +67,7 @@ export function demoBad(): string[] {
 
   logs.push(processor.processPayment("credit", amount));
   logs.push(`  Fee: $${processor.calculateFee("credit", amount)}`);
-  
+
   logs.push(processor.processPayment("paypal", amount));
   logs.push(`  Fee: $${processor.calculateFee("paypal", amount)}`);
 

@@ -1,6 +1,6 @@
 /**
  * ❌ ABSTRACCIÓN - MAL EJEMPLO
- * 
+ *
  * Problema: El código cliente conoce TODOS los detalles de implementación.
  * Si cambia la forma de enviar emails, hay que cambiar todo el código que lo usa.
  */
@@ -47,7 +47,7 @@ export function demoBad(): string[] {
 
   logs.push(sender.connect());
   logs.push(sender.authenticate());
-  
+
   const message = sender.formatMessage(
     "dest@email.com",
     "Hola",

@@ -1,15 +1,18 @@
 /**
  * ✅ SRP (Single Responsibility Principle) - BUEN EJEMPLO
- * 
+ *
  * Solución: Cada clase tiene UNA sola razón para cambiar.
  * Separamos validación, persistencia, emails y logs.
  */
 
 // ✅ Clase solo para validación
 class UserValidator {
-  validate(email: string, password: string): { valid: boolean; errors: string[] } {
+  validate(
+    email: string,
+    password: string
+  ): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
-    
+
     if (!email.includes("@")) {
       errors.push("Email inválido");
     }
@@ -104,7 +107,7 @@ export async function demoGood(): Promise<string[]> {
   );
 
   const logs = await service.register("test@email.com", "password123");
-  
+
   logs.push("");
   logs.push("✅ Cada clase tiene UNA sola responsabilidad:");
   logs.push("  - UserValidator: solo valida");
@@ -116,4 +119,10 @@ export async function demoGood(): Promise<string[]> {
   return logs;
 }
 
-export { UserValidator, UserRepository, EmailService, Logger, UserRegistrationService };
+export {
+  UserValidator,
+  UserRepository,
+  EmailService,
+  Logger,
+  UserRegistrationService,
+};

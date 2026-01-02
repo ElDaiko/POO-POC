@@ -1,6 +1,6 @@
 /**
  * ❌ OCP (Open/Closed Principle) - MAL EJEMPLO
- * 
+ *
  * Problema: Para agregar un nuevo tipo de descuento,
  * hay que MODIFICAR la clase existente.
  */
@@ -14,7 +14,7 @@ class DiscountCalculatorBad {
       case "none":
         return price;
       case "percentage":
-        return price - (price * value / 100);
+        return price - (price * value) / 100;
       case "fixed":
         return price - value;
       case "bogo": // Buy One Get One

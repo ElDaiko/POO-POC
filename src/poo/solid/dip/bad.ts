@@ -1,6 +1,6 @@
 /**
  * ❌ DIP (Dependency Inversion Principle) - MAL EJEMPLO
- * 
+ *
  * Problema: Módulos de alto nivel dependen de módulos de bajo nivel.
  * OrderService está ACOPLADO a MySQLDatabase y SmtpEmailSender.
  */
@@ -47,14 +47,18 @@ export function demoBad(): string[] {
   const service = new OrderServiceBad();
 
   logs.push("--- Creando orden ---");
-  logs.push(...service.createOrder("user@email.com", ["Producto A", "Producto B"]));
+  logs.push(
+    ...service.createOrder("user@email.com", ["Producto A", "Producto B"])
+  );
 
   logs.push("");
   logs.push("❌ Problemas:");
   logs.push("  - ¿Cambiar a PostgreSQL? Hay que modificar OrderService");
   logs.push("  - ¿Cambiar a SendGrid? Hay que modificar OrderService");
   logs.push("  - ¿Testing? Imposible sin base de datos real");
-  logs.push("  - Alto nivel (OrderService) depende de bajo nivel (MySQL, SMTP)");
+  logs.push(
+    "  - Alto nivel (OrderService) depende de bajo nivel (MySQL, SMTP)"
+  );
 
   return logs;
 }

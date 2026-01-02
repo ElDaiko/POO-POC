@@ -1,6 +1,6 @@
 /**
  * ✅ LSP (Liskov Substitution Principle) - BUEN EJEMPLO
- * 
+ *
  * Solución: Usar abstracción correcta. Rectangle y Square
  * son AMBOS tipos de Shape, no uno heredando del otro.
  */
@@ -74,13 +74,13 @@ export function demoGood(): string[] {
 
   // ✅ Todas las shapes funcionan correctamente
   const shapes: Shape[] = [
-    new Rectangle(5, 4),  // Área: 20
-    new Square(4),        // Área: 16
-    new Circle(3),        // Área: ~28.27
+    new Rectangle(5, 4), // Área: 20
+    new Square(4), // Área: 16
+    new Circle(3), // Área: ~28.27
   ];
 
   logs.push("--- Todas las Shapes funcionan igual ---");
-  shapes.forEach(shape => {
+  shapes.forEach((shape) => {
     logs.push(`${shape.describe()}: Área = ${shape.getArea().toFixed(2)}`);
   });
 

@@ -1,6 +1,6 @@
 /**
  * ✅ ENCAPSULAMIENTO - BUEN EJEMPLO
- * 
+ *
  * Solución: Estado privado con métodos controlados para acceso y modificación.
  * El estado interno está protegido y solo puede cambiar a través de métodos
  * que validan las operaciones.
@@ -49,7 +49,10 @@ export class BankAccountGood {
 
     this._balance -= amount;
     this._transactions.push(`Retiro: -$${amount}`);
-    return { success: true, message: `Retiro exitoso. Nuevo balance: $${this._balance}` };
+    return {
+      success: true,
+      message: `Retiro exitoso. Nuevo balance: $${this._balance}`,
+    };
   }
 
   // ✅ Método controlado para depósitos
@@ -60,7 +63,10 @@ export class BankAccountGood {
 
     this._balance += amount;
     this._transactions.push(`Depósito: +$${amount}`);
-    return { success: true, message: `Depósito exitoso. Nuevo balance: $${this._balance}` };
+    return {
+      success: true,
+      message: `Depósito exitoso. Nuevo balance: $${this._balance}`,
+    };
   }
 }
 
@@ -73,7 +79,9 @@ export function demoGood(): string[] {
 
   // ✅ No se puede modificar directamente
   // account.balance = 1000000; // ❌ Error: Cannot assign to 'balance'
-  logs.push(`✅ Intentar hackear balance: No es posible (propiedad de solo lectura)`);
+  logs.push(
+    `✅ Intentar hackear balance: No es posible (propiedad de solo lectura)`
+  );
 
   // ✅ Retiro con validación
   const result = account.withdraw(500000);

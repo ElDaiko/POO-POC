@@ -1,6 +1,6 @@
 /**
  * ✅ ISP (Interface Segregation Principle) - BUEN EJEMPLO
- * 
+ *
  * Solución: Interfaces pequeñas y específicas.
  * Cada clase implementa SOLO las interfaces que necesita.
  */
@@ -32,28 +32,54 @@ interface CoffeeDrinker {
 
 // ✅ Developer implementa SOLO lo que necesita
 class DeveloperGood implements Workable, Eatable, Sleepable, CoffeeDrinker {
-  work(): string { return "👨‍💻 Escribiendo código"; }
-  eat(): string { return "🍕 Comiendo pizza"; }
-  sleep(): string { return "😴 Durmiendo poco"; }
-  drinkCoffee(): string { return "☕ Café es vida"; }
+  work(): string {
+    return "👨‍💻 Escribiendo código";
+  }
+  eat(): string {
+    return "🍕 Comiendo pizza";
+  }
+  sleep(): string {
+    return "😴 Durmiendo poco";
+  }
+  drinkCoffee(): string {
+    return "☕ Café es vida";
+  }
   // ✅ NO implementa Meetable ni Reportable si no los necesita
 }
 
 // ✅ Manager implementa otras interfaces
-class Manager implements Workable, Eatable, Meetable, Reportable, CoffeeDrinker {
-  work(): string { return "👔 Coordinando equipo"; }
-  eat(): string { return "🥗 Almuerzo de negocios"; }
-  attendMeeting(): string { return "📅 Liderando reunión"; }
-  writeReport(): string { return "📊 Preparando métricas"; }
-  drinkCoffee(): string { return "☕ Espresso doble"; }
+class Manager
+  implements Workable, Eatable, Meetable, Reportable, CoffeeDrinker
+{
+  work(): string {
+    return "👔 Coordinando equipo";
+  }
+  eat(): string {
+    return "🥗 Almuerzo de negocios";
+  }
+  attendMeeting(): string {
+    return "📅 Liderando reunión";
+  }
+  writeReport(): string {
+    return "📊 Preparando métricas";
+  }
+  drinkCoffee(): string {
+    return "☕ Espresso doble";
+  }
   // ✅ NO implementa Sleepable (los managers no duermen 😅)
 }
 
 // ✅ Robot implementa SOLO lo que aplica
 class RobotWorkerGood implements Workable, Meetable, Reportable {
-  work(): string { return "🤖 Procesando tareas"; }
-  attendMeeting(): string { return "🤖 Asistiendo reunión virtual"; }
-  writeReport(): string { return "🤖 Generando reporte automático"; }
+  work(): string {
+    return "🤖 Procesando tareas";
+  }
+  attendMeeting(): string {
+    return "🤖 Asistiendo reunión virtual";
+  }
+  writeReport(): string {
+    return "🤖 Generando reporte automático";
+  }
   // ✅ NO implementa Eatable, Sleepable, CoffeeDrinker - ¡correcto!
 }
 
@@ -94,9 +120,5 @@ export function demoGood(): string[] {
   return logs;
 }
 
-export { 
-  DeveloperGood, 
-  Manager, 
-  RobotWorkerGood 
-};
+export { DeveloperGood, Manager, RobotWorkerGood };
 export type { Workable, Eatable };

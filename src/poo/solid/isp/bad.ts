@@ -1,6 +1,6 @@
 /**
  * ❌ ISP (Interface Segregation Principle) - MAL EJEMPLO
- * 
+ *
  * Problema: Interfaz "gorda" que obliga a implementar métodos innecesarios.
  */
 
@@ -16,29 +16,53 @@ interface WorkerBad {
 
 // ❌ Desarrollador: tiene que implementar TODO aunque no aplique
 class DeveloperBad implements WorkerBad {
-  work(): string { return "👨‍💻 Escribiendo código"; }
-  eat(): string { return "🍕 Comiendo pizza"; }
-  sleep(): string { return "😴 Durmiendo poco"; }
-  attendMeeting(): string { return "📅 En reunión (preferiría programar)"; }
-  writeReport(): string { return "📝 Escribiendo reporte (no me gusta)"; }
-  drinkCoffee(): string { return "☕ Café es vida"; }
+  work(): string {
+    return "👨‍💻 Escribiendo código";
+  }
+  eat(): string {
+    return "🍕 Comiendo pizza";
+  }
+  sleep(): string {
+    return "😴 Durmiendo poco";
+  }
+  attendMeeting(): string {
+    return "📅 En reunión (preferiría programar)";
+  }
+  writeReport(): string {
+    return "📝 Escribiendo reporte (no me gusta)";
+  }
+  drinkCoffee(): string {
+    return "☕ Café es vida";
+  }
 }
 
 // ❌ Robot: obligado a implementar métodos absurdos
 class RobotWorkerBad implements WorkerBad {
-  work(): string { return "🤖 Procesando tareas"; }
-  
+  work(): string {
+    return "🤖 Procesando tareas";
+  }
+
   // ❌ Un robot NO come, pero debe implementar el método
-  eat(): string { return "🤖 ERROR: No tengo sistema digestivo"; }
-  
+  eat(): string {
+    return "🤖 ERROR: No tengo sistema digestivo";
+  }
+
   // ❌ Un robot NO duerme
-  sleep(): string { return "🤖 ERROR: No necesito dormir"; }
-  
-  attendMeeting(): string { return "🤖 Asistiendo a reunión virtual"; }
-  writeReport(): string { return "🤖 Generando reporte automático"; }
-  
+  sleep(): string {
+    return "🤖 ERROR: No necesito dormir";
+  }
+
+  attendMeeting(): string {
+    return "🤖 Asistiendo a reunión virtual";
+  }
+  writeReport(): string {
+    return "🤖 Generando reporte automático";
+  }
+
   // ❌ Un robot NO toma café
-  drinkCoffee(): string { return "🤖 ERROR: El café daña mis circuitos"; }
+  drinkCoffee(): string {
+    return "🤖 ERROR: El café daña mis circuitos";
+  }
 }
 
 export function demoBad(): string[] {
@@ -54,8 +78,8 @@ export function demoBad(): string[] {
   logs.push("");
   logs.push("--- Robot ---");
   logs.push(robot.work());
-  logs.push(robot.eat());      // ❌ Método forzado
-  logs.push(robot.sleep());    // ❌ Método forzado
+  logs.push(robot.eat()); // ❌ Método forzado
+  logs.push(robot.sleep()); // ❌ Método forzado
   logs.push(robot.drinkCoffee()); // ❌ Método forzado
 
   logs.push("");

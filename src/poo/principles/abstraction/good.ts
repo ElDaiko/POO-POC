@@ -1,13 +1,17 @@
 /**
  * ✅ ABSTRACCIÓN - BUEN EJEMPLO
- * 
+ *
  * Solución: Interfaz que define QUÉ hace el servicio, no CÓMO lo hace.
  * El cliente solo conoce el contrato, los detalles están ocultos.
  */
 
 // ✅ Interfaz - Define el contrato (QUÉ)
 export interface NotificationService {
-  send(to: string, subject: string, message: string): Promise<NotificationResult>;
+  send(
+    to: string,
+    subject: string,
+    message: string
+  ): Promise<NotificationResult>;
 }
 
 export interface NotificationResult {
@@ -20,17 +24,21 @@ export class EmailNotificationService implements NotificationService {
   private smtpServer = "smtp.gmail.com";
   private port = 587;
 
-  async send(to: string, subject: string, _message: string): Promise<NotificationResult> {
+  async send(
+    to: string,
+    subject: string,
+    _message: string
+  ): Promise<NotificationResult> {
     // ✅ Todos los detalles de SMTP están OCULTOS aquí
     console.log(`[SMTP] Conectando a ${this.smtpServer}:${this.port}`);
     console.log(`[SMTP] Enviando a ${to}`);
-    
+
     // Simular envío
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     return {
       success: true,
-      message: `Email enviado a ${to}: "${subject}"`
+      message: `Email enviado a ${to}: "${subject}"`,
     };
   }
 }
@@ -39,27 +47,35 @@ export class EmailNotificationService implements NotificationService {
 export class SMSNotificationService implements NotificationService {
   private apiKey = "twilio-api-key";
 
-  async send(to: string, _subject: string, message: string): Promise<NotificationResult> {
+  async send(
+    to: string,
+    _subject: string,
+    message: string
+  ): Promise<NotificationResult> {
     // ✅ Detalles de Twilio API ocultos
     console.log(`[SMS] Usando API Key: ${this.apiKey.substring(0, 5)}...`);
-    
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     return {
       success: true,
-      message: `SMS enviado a ${to}: "${message.substring(0, 20)}..."`
+      message: `SMS enviado a ${to}: "${message.substring(0, 20)}..."`,
     };
   }
 }
 
 // ✅ Implementación Push - Otra implementación más
 export class PushNotificationService implements NotificationService {
-  async send(to: string, subject: string, _message: string): Promise<NotificationResult> {
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+  async send(
+    to: string,
+    subject: string,
+    _message: string
+  ): Promise<NotificationResult> {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     return {
       success: true,
-      message: `Push enviado al dispositivo ${to}: "${subject}"`
+      message: `Push enviado al dispositivo ${to}: "${subject}"`,
     };
   }
 }
@@ -69,8 +85,15 @@ export async function demoGood(): Promise<string[]> {
   const logs: string[] = [];
 
   // ✅ El cliente trabaja con la ABSTRACCIÓN, no con implementaciones
-  async function notifyUser(service: NotificationService, user: string): Promise<string> {
-    const result = await service.send(user, "Bienvenido", "Gracias por registrarte");
+  async function notifyUser(
+    service: NotificationService,
+    user: string
+  ): Promise<string> {
+    const result = await service.send(
+      user,
+      "Bienvenido",
+      "Gracias por registrarte"
+    );
     return result.message;
   }
 

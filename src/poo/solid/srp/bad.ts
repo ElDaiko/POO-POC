@@ -1,6 +1,6 @@
 /**
  * ❌ SRP (Single Responsibility Principle) - MAL EJEMPLO
- * 
+ *
  * Problema: Una clase hace DEMASIADAS cosas.
  * UserService maneja: validación, persistencia, emails y logs.
  */
@@ -31,14 +31,18 @@ export class UserServiceBad {
     logs.push(`✓ Email de bienvenida enviado a ${email}`);
 
     // ❌ Responsabilidad 4: Logging
-    logs.push(`✓ Log: Usuario ${email} registrado a las ${new Date().toISOString()}`);
+    logs.push(
+      `✓ Log: Usuario ${email} registrado a las ${new Date().toISOString()}`
+    );
 
     // ❌ Responsabilidad 5: Métricas
     logs.push(`✓ Métrica: total_users_registered++`);
 
     logs.push("");
     logs.push("⚠️ Esta clase tiene 5 responsabilidades diferentes");
-    logs.push("⚠️ Si cambia la lógica de emails, hay que modificar UserService");
+    logs.push(
+      "⚠️ Si cambia la lógica de emails, hay que modificar UserService"
+    );
 
     return logs;
   }

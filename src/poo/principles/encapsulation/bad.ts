@@ -1,6 +1,6 @@
 /**
  * ❌ ENCAPSULAMIENTO - MAL EJEMPLO
- * 
+ *
  * Problema: Estado público que puede ser modificado desde cualquier lugar
  * sin validación ni control.
  */
@@ -42,7 +42,9 @@ export function demoBad(): string[] {
 
   // ❌ Modificación del historial
   account.transactions = [];
-  logs.push(`⚠️ Historial borrado: ${account.transactions.length} transacciones`);
+  logs.push(
+    `⚠️ Historial borrado: ${account.transactions.length} transacciones`
+  );
 
   return logs;
 }

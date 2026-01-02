@@ -1,6 +1,6 @@
 /**
  * ✅ COMPOSICIÓN VS HERENCIA - BUEN EJEMPLO
- * 
+ *
  * Solución: Componer objetos con las capacidades que necesitan.
  * "Tiene-un" en lugar de "Es-un".
  */
@@ -31,11 +31,11 @@ interface FlightCapability {
 // ✅ Implementaciones de capacidades (comportamientos)
 class StandardBattery implements Battery {
   level = 100;
-  
+
   consume(amount: number): void {
     this.level = Math.max(0, this.level - amount);
   }
-  
+
   charge(): string {
     this.level = 100;
     return "🔋 Batería cargada al 100%";
@@ -86,9 +86,15 @@ class CleaningRobotGood {
     this.cleaner = cleaner ?? new VacuumCleaner();
   }
 
-  move(): string { return this.movement.move(this.battery); }
-  clean(): string { return this.cleaner.clean(this.battery); }
-  charge(): string { return this.battery.charge(); }
+  move(): string {
+    return this.movement.move(this.battery);
+  }
+  clean(): string {
+    return this.cleaner.clean(this.battery);
+  }
+  charge(): string {
+    return this.battery.charge();
+  }
   // ✅ NO tiene speak() - correcto!
 }
 
@@ -101,8 +107,12 @@ class FlyingRobotGood {
     this.flight = flight ?? new PropellerFlight();
   }
 
-  fly(): string { return this.flight.fly(this.battery); }
-  charge(): string { return this.battery.charge(); }
+  fly(): string {
+    return this.flight.fly(this.battery);
+  }
+  charge(): string {
+    return this.battery.charge();
+  }
   // ✅ NO tiene speak() ni clean() - correcto!
 }
 
@@ -122,9 +132,15 @@ class FlyingCleaningRobot {
     this.cleaner = cleaner ?? new VacuumCleaner();
   }
 
-  fly(): string { return this.flight.fly(this.battery); }
-  clean(): string { return this.cleaner.clean(this.battery); }
-  charge(): string { return this.battery.charge(); }
+  fly(): string {
+    return this.flight.fly(this.battery);
+  }
+  clean(): string {
+    return this.cleaner.clean(this.battery);
+  }
+  charge(): string {
+    return this.battery.charge();
+  }
 }
 
 // ✅ Robot asistente que habla y se mueve
@@ -143,9 +159,15 @@ class AssistantRobot {
     this.speaker = speaker ?? new VoiceSpeaker();
   }
 
-  move(): string { return this.movement.move(this.battery); }
-  speak(): string { return this.speaker.speak(this.battery); }
-  charge(): string { return this.battery.charge(); }
+  move(): string {
+    return this.movement.move(this.battery);
+  }
+  speak(): string {
+    return this.speaker.speak(this.battery);
+  }
+  charge(): string {
+    return this.battery.charge();
+  }
 }
 
 export function demoGood(): string[] {
@@ -178,11 +200,11 @@ export function demoGood(): string[] {
   return logs;
 }
 
-export { 
-  CleaningRobotGood, 
-  FlyingRobotGood, 
-  FlyingCleaningRobot, 
+export {
+  CleaningRobotGood,
+  FlyingRobotGood,
+  FlyingCleaningRobot,
   AssistantRobot,
-  StandardBattery 
+  StandardBattery,
 };
 export type { Battery };

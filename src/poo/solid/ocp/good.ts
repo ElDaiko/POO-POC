@@ -1,6 +1,6 @@
 /**
  * ✅ OCP (Open/Closed Principle) - BUEN EJEMPLO
- * 
+ *
  * Solución: Abierto para EXTENSIÓN, cerrado para MODIFICACIÓN.
  * Agregar nuevos descuentos = crear nuevas clases.
  */
@@ -28,7 +28,7 @@ class PercentageDiscount implements DiscountStrategy {
     this.name = `${percentage}% de descuento`;
   }
   apply(price: number): number {
-    return price - (price * this.percentage / 100);
+    return price - (price * this.percentage) / 100;
   }
 }
 
@@ -63,7 +63,7 @@ class SeasonalDiscount implements DiscountStrategy {
 class FirstPurchaseDiscount implements DiscountStrategy {
   readonly name = "Primera compra (30%)";
   apply(price: number): number {
-    return price * 0.70;
+    return price * 0.7;
   }
 }
 
@@ -85,14 +85,14 @@ export function demoGood(): string[] {
     new PercentageDiscount(10),
     new FixedDiscount(15),
     new BuyOneGetOneFree(),
-    new SeasonalDiscount(),        // ✅ Nuevo, sin modificar calculator
-    new FirstPurchaseDiscount(),   // ✅ Nuevo, sin modificar calculator
+    new SeasonalDiscount(), // ✅ Nuevo, sin modificar calculator
+    new FirstPurchaseDiscount(), // ✅ Nuevo, sin modificar calculator
   ];
 
   logs.push(`Precio original: $${price}`);
   logs.push("");
 
-  strategies.forEach(strategy => {
+  strategies.forEach((strategy) => {
     const finalPrice = calculator.calculate(strategy, price);
     logs.push(`${strategy.name}: $${finalPrice.toFixed(2)}`);
   });
@@ -105,9 +105,5 @@ export function demoGood(): string[] {
   return logs;
 }
 
-export { 
-  DiscountCalculator,
-  PercentageDiscount,
-  SeasonalDiscount 
-};
+export { DiscountCalculator, PercentageDiscount, SeasonalDiscount };
 export type { DiscountStrategy };

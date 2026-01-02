@@ -1,6 +1,6 @@
 /**
  * ✅ DIP (Dependency Inversion Principle) - BUEN EJEMPLO
- * 
+ *
  * Solución: Ambos niveles dependen de ABSTRACCIONES.
  * OrderService depende de interfaces, no de implementaciones.
  */
@@ -76,10 +76,7 @@ class OrderServiceGood {
     logs.push(this.database.save("orders", { items, customer: customerEmail }));
 
     // ✅ Trabaja con abstracción, no sabe qué servicio de email es
-    logs.push(this.emailSender.send(
-      customerEmail,
-      "Tu orden ha sido creada"
-    ));
+    logs.push(this.emailSender.send(customerEmail, "Tu orden ha sido creada"));
 
     return logs;
   }
@@ -110,10 +107,9 @@ export function demoGood(): string[] {
 
   // ✅ Testing con Mocks
   logs.push("--- Testing (Mock) ---");
-  const testService = new OrderServiceGood(
-    new MockDatabase(),
-    { send: (to, subject) => `[TEST] Mock email a ${to}: ${subject}` }
-  );
+  const testService = new OrderServiceGood(new MockDatabase(), {
+    send: (to, subject) => `[TEST] Mock email a ${to}: ${subject}`,
+  });
   logs.push(...testService.createOrder("test@test.com", ["Test Item"]));
 
   logs.push("");
@@ -125,9 +121,5 @@ export function demoGood(): string[] {
   return logs;
 }
 
-export { 
-  OrderServiceGood,
-  MySQLDatabase,
-  PostgreSQLDatabase 
-};
+export { OrderServiceGood, MySQLDatabase, PostgreSQLDatabase };
 export type { Database, EmailSender };

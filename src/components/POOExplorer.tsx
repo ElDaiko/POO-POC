@@ -56,7 +56,8 @@ const pooPrinciples: PrincipleInfo[] = [
     name: "Encapsulamiento",
     shortName: "Encap",
     emoji: "🔒",
-    description: "Ocultar el estado interno y exponer solo métodos controlados para modificarlo.",
+    description:
+      "Ocultar el estado interno y exponer solo métodos controlados para modificarlo.",
     badDemo: encapBad,
     goodDemo: encapGood,
     badCode: {
@@ -71,7 +72,8 @@ const pooPrinciples: PrincipleInfo[] = [
 const account = new BankAccountBad();
 account.balance = 1000000;  // ¡Hackeado!
 account.balance = -500;     // ¡Balance negativo!`,
-      explanation: "Cualquier parte del código puede modificar el balance directamente, sin validación. Esto permite estados inválidos como balances negativos o modificaciones no autorizadas."
+      explanation:
+        "Cualquier parte del código puede modificar el balance directamente, sin validación. Esto permite estados inválidos como balances negativos o modificaciones no autorizadas.",
     },
     goodCode: {
       title: "✅ Estado privado con métodos controlados",
@@ -93,15 +95,17 @@ account.balance = -500;     // ¡Balance negativo!`,
     return { success: true };
   }
 }`,
-      explanation: "El balance solo puede cambiar a través de métodos que validan la operación. Imposible hackear o crear estados inválidos."
+      explanation:
+        "El balance solo puede cambiar a través de métodos que validan la operación. Imposible hackear o crear estados inválidos.",
     },
     keyPoints: [
       "Estado privado (private)",
       "Getters para acceso controlado",
       "Métodos que validan antes de modificar",
-      "Protección contra modificaciones externas"
+      "Protección contra modificaciones externas",
     ],
-    interviewTip: "El encapsulamiento protege la integridad de los datos. Sin él, cualquier parte del código puede corromper el estado de un objeto."
+    interviewTip:
+      "El encapsulamiento protege la integridad de los datos. Sin él, cualquier parte del código puede corromper el estado de un objeto.",
   },
   {
     id: "abstraction",
@@ -130,7 +134,8 @@ sender.authenticate();
 const msg = sender.formatMessage(to, subject, body);
 sender.sendRaw(msg);
 sender.disconnect();`,
-      explanation: "El código cliente necesita conocer el protocolo SMTP completo. Si cambias a SendGrid, debes reescribir TODO el código que usa esta clase."
+      explanation:
+        "El código cliente necesita conocer el protocolo SMTP completo. Si cambias a SendGrid, debes reescribir TODO el código que usa esta clase.",
     },
     goodCode: {
       title: "✅ Interfaz simple, detalles ocultos",
@@ -151,22 +156,25 @@ class EmailService implements NotificationService {
 const service: NotificationService = new EmailService();
 await service.send("user@email.com", "Hola", "Mensaje");
 // ¡Puedo cambiar a SMSService sin cambiar este código!`,
-      explanation: "El cliente solo conoce el método 'send'. Puedes cambiar de Email a SMS o Push sin modificar el código que consume el servicio."
+      explanation:
+        "El cliente solo conoce el método 'send'. Puedes cambiar de Email a SMS o Push sin modificar el código que consume el servicio.",
     },
     keyPoints: [
       "Interfaces definen contratos",
       "Implementaciones ocultan detalles",
       "El cliente no conoce el 'cómo'",
-      "Facilita cambiar implementaciones"
+      "Facilita cambiar implementaciones",
     ],
-    interviewTip: "La abstracción permite trabajar con conceptos de alto nivel sin preocuparse por detalles de implementación."
+    interviewTip:
+      "La abstracción permite trabajar con conceptos de alto nivel sin preocuparse por detalles de implementación.",
   },
   {
     id: "inheritance",
     name: "Herencia",
     shortName: "Heren",
     emoji: "🌳",
-    description: "Crear nuevas clases basadas en clases existentes. Usar SOLO cuando hay relación 'es-un'.",
+    description:
+      "Crear nuevas clases basadas en clases existentes. Usar SOLO cuando hay relación 'es-un'.",
     badDemo: inhBad,
     goodDemo: inhGood,
     badCode: {
@@ -192,7 +200,8 @@ class Duck extends Airplane {
 // ❌ Un pato tiene "fuel" heredado - absurdo
 const duck = new Duck();
 console.log(duck.fuel); // 100 ¿?`,
-      explanation: "Un Pato NO ES un Avión. Heredar solo porque ambos 'vuelan' fuerza al Pato a tener propiedades absurdas como combustible y motor."
+      explanation:
+        "Un Pato NO ES un Avión. Heredar solo porque ambos 'vuelan' fuerza al Pato a tener propiedades absurdas como combustible y motor.",
     },
     goodCode: {
       title: "✅ Herencia solo cuando ES-UN es verdadero",
@@ -218,22 +227,25 @@ class Airplane implements Flyable {
   fly() { return "Volando a 10,000m"; }
   refuel() { /* solo aviones */ }
 }`,
-      explanation: "Duck ES un Animal (herencia correcta). Duck y Airplane PUEDEN volar (interfaz compartida), pero no tienen relación de herencia entre sí."
+      explanation:
+        "Duck ES un Animal (herencia correcta). Duck y Airplane PUEDEN volar (interfaz compartida), pero no tienen relación de herencia entre sí.",
     },
     keyPoints: [
       "Solo usar cuando hay relación ES-UN",
       "Un Pato ES un Animal ✓",
       "Un Pato NO ES un Avión ✗",
-      "Preferir composición cuando no hay relación clara"
+      "Preferir composición cuando no hay relación clara",
     ],
-    interviewTip: "La herencia es la relación más fuerte entre clases. Usarla incorrectamente crea acoplamiento difícil de romper."
+    interviewTip:
+      "La herencia es la relación más fuerte entre clases. Usarla incorrectamente crea acoplamiento difícil de romper.",
   },
   {
     id: "polymorphism",
     name: "Polimorfismo",
     shortName: "Polim",
     emoji: "🔄",
-    description: "Objetos de diferentes tipos responden al mismo mensaje de forma diferente.",
+    description:
+      "Objetos de diferentes tipos responden al mismo mensaje de forma diferente.",
     badDemo: polyBad,
     goodDemo: polyGood,
     badCode: {
@@ -255,7 +267,8 @@ class Airplane implements Flyable {
     }
   }
 }`,
-      explanation: "Cada nuevo tipo de pago requiere modificar esta clase. Si hay 10 lugares con switch similares, debes modificar los 10."
+      explanation:
+        "Cada nuevo tipo de pago requiere modificar esta clase. Si hay 10 lugares con switch similares, debes modificar los 10.",
     },
     goodCode: {
       title: "✅ Cada tipo es una clase con el mismo contrato",
@@ -286,22 +299,25 @@ class Crypto implements PaymentMethod {
 function checkout(method: PaymentMethod, amount: number) {
   return method.process(amount);
 }`,
-      explanation: "Agregar un nuevo tipo de pago = crear una nueva clase. El código existente NUNCA se modifica. Esto es Open/Closed Principle."
+      explanation:
+        "Agregar un nuevo tipo de pago = crear una nueva clase. El código existente NUNCA se modifica. Esto es Open/Closed Principle.",
     },
     keyPoints: [
       "Mismo método, diferentes comportamientos",
       "Elimina switch/if por tipos",
       "Agregar tipos = crear clases, no modificar",
-      "Habilita Open/Closed Principle"
+      "Habilita Open/Closed Principle",
     ],
-    interviewTip: "Si ves un switch que evalúa tipos de objetos, probablemente debería ser polimorfismo."
+    interviewTip:
+      "Si ves un switch que evalúa tipos de objetos, probablemente debería ser polimorfismo.",
   },
   {
     id: "composition",
     name: "Composición > Herencia",
     shortName: "Comp",
     emoji: "🧩",
-    description: "Construir objetos combinando otros objetos en lugar de heredar.",
+    description:
+      "Construir objetos combinando otros objetos en lugar de heredar.",
     badDemo: compBad,
     goodDemo: compGood,
     badCode: {
@@ -323,7 +339,8 @@ class CleaningRobot extends Robot {
 class FlyingRobot extends Robot { fly() {} }
 // class FlyingCleaningRobot extends CleaningRobot, FlyingRobot {} 
 // ❌ ERROR: TypeScript no permite herencia múltiple`,
-      explanation: "La herencia crea jerarquías rígidas. No puedes combinar capacidades libremente y heredas métodos que no necesitas."
+      explanation:
+        "La herencia crea jerarquías rígidas. No puedes combinar capacidades libremente y heredas métodos que no necesitas.",
     },
     goodCode: {
       title: "✅ Componer capacidades según necesidad",
@@ -358,16 +375,18 @@ class FlyingCleaningRobot {
   clean() { return this.cleaner.clean(); }
   fly() { return this.flyer.fly(); }
 }`,
-      explanation: "Cada robot tiene exactamente las capacidades que necesita. Puedes combinar cualquier conjunto de capacidades sin limitaciones de herencia."
+      explanation:
+        "Cada robot tiene exactamente las capacidades que necesita. Puedes combinar cualquier conjunto de capacidades sin limitaciones de herencia.",
     },
     keyPoints: [
       "TIENE-UN en lugar de ES-UN",
       "Más flexible que herencia",
       "Combina capacidades libremente",
-      "Evita jerarquías rígidas"
+      "Evita jerarquías rígidas",
     ],
-    interviewTip: "Favorece composición sobre herencia. Es más flexible y evita los problemas de herencia múltiple."
-  }
+    interviewTip:
+      "Favorece composición sobre herencia. Es más flexible y evita los problemas de herencia múltiple.",
+  },
 ];
 
 // Datos de principios SOLID
@@ -401,7 +420,8 @@ const solidPrinciples: PrincipleInfo[] = [
   }
 }
 // Si cambia cómo se envían emails, hay que modificar UserService`,
-      explanation: "Esta clase tiene 5 razones para cambiar. Si cambia la validación, el email, la BD, el logging o las métricas, hay que modificar esta clase."
+      explanation:
+        "Esta clase tiene 5 razones para cambiar. Si cambia la validación, el email, la BD, el logging o las métricas, hay que modificar esta clase.",
     },
     goodCode: {
       title: "✅ Cada clase hace UNA cosa",
@@ -432,15 +452,17 @@ class UserRegistrationService {
     await this.emailSender.send(email);
   }
 }`,
-      explanation: "Si cambia cómo se envían emails, solo modificas WelcomeEmailSender. Las demás clases no se tocan."
+      explanation:
+        "Si cambia cómo se envían emails, solo modificas WelcomeEmailSender. Las demás clases no se tocan.",
     },
     keyPoints: [
       "Una clase = una responsabilidad",
       "Separar validación, persistencia, notificación",
       "Clases pequeñas y enfocadas",
-      "Fácil de testear y mantener"
+      "Fácil de testear y mantener",
     ],
-    interviewTip: "Si describes una clase usando 'Y' (valida Y guarda Y envía email), probablemente viola SRP."
+    interviewTip:
+      "Si describes una clase usando 'Y' (valida Y guarda Y envía email), probablemente viola SRP.",
   },
   {
     id: "ocp",
@@ -469,7 +491,8 @@ class UserRegistrationService {
     }
   }
 }`,
-      explanation: "Cada nuevo tipo de descuento requiere MODIFICAR esta clase. Riesgo de introducir bugs en código que ya funcionaba."
+      explanation:
+        "Cada nuevo tipo de descuento requiere MODIFICAR esta clase. Riesgo de introducir bugs en código que ya funcionaba.",
     },
     goodCode: {
       title: "✅ Extender sin modificar",
@@ -498,15 +521,17 @@ class DiscountCalculator {
     return strategy.apply(price);
   }
 }`,
-      explanation: "Agregar SeasonalDiscount no requiere tocar el código existente. Solo creas una nueva clase."
+      explanation:
+        "Agregar SeasonalDiscount no requiere tocar el código existente. Solo creas una nueva clase.",
     },
     keyPoints: [
       "Agregar funcionalidad sin modificar código existente",
       "Usar interfaces y polimorfismo",
       "Nuevos tipos = nuevas clases",
-      "El código existente no cambia"
+      "El código existente no cambia",
     ],
-    interviewTip: "Si agregar un nuevo tipo requiere modificar switch/if existentes, estás violando OCP."
+    interviewTip:
+      "Si agregar un nuevo tipo requiere modificar switch/if existentes, estás violando OCP.",
   },
   {
     id: "lsp",
@@ -548,7 +573,8 @@ function testRectangle(r: Rectangle) {
 }
 testRectangle(new Rectangle()); // ✅ 20
 testRectangle(new Square());    // ❌ 16 ¡SORPRESA!`,
-      explanation: "Square no puede sustituir a Rectangle porque cambia el comportamiento esperado. setWidth no debería afectar height."
+      explanation:
+        "Square no puede sustituir a Rectangle porque cambia el comportamiento esperado. setWidth no debería afectar height.",
     },
     goodCode: {
       title: "✅ Cada tipo cumple su contrato sin sorpresas",
@@ -578,15 +604,17 @@ function printArea(shape: Shape) {
 
 printArea(new Rectangle(5, 4)); // 20 ✅
 printArea(new Square(4));       // 16 ✅`,
-      explanation: "Rectangle y Square implementan Shape independientemente. No hay herencia problemática entre ellos."
+      explanation:
+        "Rectangle y Square implementan Shape independientemente. No hay herencia problemática entre ellos.",
     },
     keyPoints: [
       "Subclases no deben romper comportamiento del padre",
       "Si B hereda de A, donde uses A puedes usar B",
       "Square no debe heredar de Rectangle",
-      "Contratos deben cumplirse"
+      "Contratos deben cumplirse",
     ],
-    interviewTip: "El clásico ejemplo es Rectangle/Square. Un Square NO puede sustituir a Rectangle sin romper expectativas."
+    interviewTip:
+      "El clásico ejemplo es Rectangle/Square. Un Square NO puede sustituir a Rectangle sin romper expectativas.",
   },
   {
     id: "isp",
@@ -622,7 +650,8 @@ class Robot implements Worker {
   
   attendMeeting() { /* ok */ }
 }`,
-      explanation: "Robot está obligado a implementar métodos que no tienen sentido. Lanza excepciones en métodos que no debería tener."
+      explanation:
+        "Robot está obligado a implementar métodos que no tienen sentido. Lanza excepciones en métodos que no debería tener.",
     },
     goodCode: {
       title: "✅ Interfaces pequeñas por capacidad",
@@ -658,15 +687,17 @@ function feedWorker(worker: Eatable) {
 }
 feedWorker(new Developer()); // ✅ OK
 // feedWorker(new Robot());  // ❌ Error de compilación`,
-      explanation: "Robot solo implementa Workable. No está forzado a implementar métodos que no aplican. TypeScript previene errores."
+      explanation:
+        "Robot solo implementa Workable. No está forzado a implementar métodos que no aplican. TypeScript previene errores.",
     },
     keyPoints: [
       "Muchas interfaces pequeñas > una grande",
       "Clientes no dependen de métodos que no usan",
       "Interfaces por capacidad/rol",
-      "Más flexibilidad de implementación"
+      "Más flexibilidad de implementación",
     ],
-    interviewTip: "Si una clase implementa métodos vacíos o que lanzan 'NotImplemented', la interfaz es muy grande."
+    interviewTip:
+      "Si una clase implementa métodos vacíos o que lanzan 'NotImplemented', la interfaz es muy grande.",
   },
   {
     id: "dip",
@@ -696,7 +727,8 @@ feedWorker(new Developer()); // ✅ OK
 // - ¿Cambiar a PostgreSQL? Modificar OrderService
 // - ¿Cambiar a SendGrid? Modificar OrderService
 // - ¿Testing? Imposible sin BD y SMTP reales`,
-      explanation: "OrderService está soldado a MySQL y SMTP. Para cambiar cualquiera, debes modificar la clase. Imposible testear sin infraestructura real."
+      explanation:
+        "OrderService está soldado a MySQL y SMTP. Para cambiar cualquiera, debes modificar la clase. Imposible testear sin infraestructura real.",
     },
     goodCode: {
       title: "✅ Dependencias inyectadas como abstracciones",
@@ -730,16 +762,18 @@ new OrderService(new MockDatabase(), new MockEmailSender());
 
 // ✅ Cambiar a PostgreSQL - solo cambiar instanciación
 new OrderService(new PostgreSQLDatabase(), new SmtpSender());`,
-      explanation: "OrderService no sabe qué BD o email usa. Puedes inyectar MySQL, PostgreSQL o un Mock sin modificar la clase."
+      explanation:
+        "OrderService no sabe qué BD o email usa. Puedes inyectar MySQL, PostgreSQL o un Mock sin modificar la clase.",
     },
     keyPoints: [
       "Alto nivel no depende de bajo nivel",
       "Ambos dependen de abstracciones",
       "Inyección de dependencias",
-      "Facilita testing con mocks"
+      "Facilita testing con mocks",
     ],
-    interviewTip: "Si una clase hace 'new' de sus dependencias internamente, viola DIP. Inyecta las dependencias."
-  }
+    interviewTip:
+      "Si una clase hace 'new' de sus dependencias internamente, viola DIP. Inyecta las dependencias.",
+  },
 ];
 
 // Estilos
@@ -919,13 +953,18 @@ const styles = {
 // Componente principal
 export const POOExplorer: React.FC = () => {
   const [category, setCategory] = useState<"poo" | "solid">("poo");
-  const [selectedPrinciple, setSelectedPrinciple] = useState<string>("encapsulation");
+  const [selectedPrinciple, setSelectedPrinciple] =
+    useState<string>("encapsulation");
   const [badOutput, setBadOutput] = useState<string[]>([]);
   const [goodOutput, setGoodOutput] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<{ bad: boolean; good: boolean }>({ bad: false, good: false });
+  const [isLoading, setIsLoading] = useState<{ bad: boolean; good: boolean }>({
+    bad: false,
+    good: false,
+  });
 
   const principles = category === "poo" ? pooPrinciples : solidPrinciples;
-  const currentPrinciple = principles.find(p => p.id === selectedPrinciple) || principles[0];
+  const currentPrinciple =
+    principles.find((p) => p.id === selectedPrinciple) || principles[0];
 
   const handleCategoryChange = (newCategory: "poo" | "solid") => {
     setCategory(newCategory);
@@ -941,12 +980,13 @@ export const POOExplorer: React.FC = () => {
   };
 
   const runDemo = async (type: "bad" | "good") => {
-    setIsLoading(prev => ({ ...prev, [type]: true }));
-    
+    setIsLoading((prev) => ({ ...prev, [type]: true }));
+
     try {
-      const demo = type === "bad" ? currentPrinciple.badDemo : currentPrinciple.goodDemo;
+      const demo =
+        type === "bad" ? currentPrinciple.badDemo : currentPrinciple.goodDemo;
       const result = await demo();
-      
+
       if (type === "bad") {
         setBadOutput(result);
       } else {
@@ -960,8 +1000,8 @@ export const POOExplorer: React.FC = () => {
         setGoodOutput(errorMsg);
       }
     }
-    
-    setIsLoading(prev => ({ ...prev, [type]: false }));
+
+    setIsLoading((prev) => ({ ...prev, [type]: false }));
   };
 
   return (
@@ -970,7 +1010,8 @@ export const POOExplorer: React.FC = () => {
       <header style={styles.header}>
         <h1 style={styles.title}>🎓 POO & SOLID Explorer</h1>
         <p style={styles.subtitle}>
-          Aprende principios de Programación Orientada a Objetos con ejemplos interactivos
+          Aprende principios de Programación Orientada a Objetos con ejemplos
+          interactivos
         </p>
       </header>
 
@@ -979,7 +1020,9 @@ export const POOExplorer: React.FC = () => {
         <button
           style={{
             ...styles.categoryTab,
-            ...(category === "poo" ? styles.categoryTabActive : styles.categoryTabInactive),
+            ...(category === "poo"
+              ? styles.categoryTabActive
+              : styles.categoryTabInactive),
           }}
           onClick={() => handleCategoryChange("poo")}
         >
@@ -988,7 +1031,9 @@ export const POOExplorer: React.FC = () => {
         <button
           style={{
             ...styles.categoryTab,
-            ...(category === "solid" ? styles.categoryTabActive : styles.categoryTabInactive),
+            ...(category === "solid"
+              ? styles.categoryTabActive
+              : styles.categoryTabInactive),
           }}
           onClick={() => handleCategoryChange("solid")}
         >
@@ -998,7 +1043,7 @@ export const POOExplorer: React.FC = () => {
 
       {/* Principles Navigation */}
       <div style={styles.principlesNav}>
-        {principles.map(p => (
+        {principles.map((p) => (
           <button
             key={p.id}
             style={{
@@ -1033,7 +1078,8 @@ export const POOExplorer: React.FC = () => {
 
         {/* Interview Tip */}
         <div style={styles.interviewTip}>
-          <strong>💡 Tip para entrevista:</strong> {currentPrinciple.interviewTip}
+          <strong>💡 Tip para entrevista:</strong>{" "}
+          {currentPrinciple.interviewTip}
         </div>
 
         {/* Demo Section */}
@@ -1045,32 +1091,39 @@ export const POOExplorer: React.FC = () => {
             </div>
             <div style={styles.demoContent}>
               {/* Code Example */}
-              <pre style={{
-                margin: "0 0 12px 0",
-                padding: "12px",
-                backgroundColor: "#1a1a2e",
-                borderRadius: "6px",
-                fontSize: "11px",
-                lineHeight: "1.5",
-                overflow: "auto",
-                maxHeight: "280px",
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word",
-              }}>
-                <code style={{ color: "#e8e8e8" }}>{currentPrinciple.badCode.code}</code>
+              <pre
+                style={{
+                  margin: "0 0 12px 0",
+                  padding: "12px",
+                  backgroundColor: "#1a1a2e",
+                  borderRadius: "6px",
+                  fontSize: "11px",
+                  lineHeight: "1.5",
+                  overflow: "auto",
+                  maxHeight: "280px",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                }}
+              >
+                <code style={{ color: "#e8e8e8" }}>
+                  {currentPrinciple.badCode.code}
+                </code>
               </pre>
-              
+
               {/* Explanation */}
-              <div style={{
-                padding: "10px 12px",
-                backgroundColor: "#2a1a1a",
-                borderRadius: "6px",
-                fontSize: "12px",
-                color: "#f8d7da",
-                marginBottom: "12px",
-                borderLeft: "3px solid #dc3545",
-              }}>
-                <strong>⚠️ Problema:</strong> {currentPrinciple.badCode.explanation}
+              <div
+                style={{
+                  padding: "10px 12px",
+                  backgroundColor: "#2a1a1a",
+                  borderRadius: "6px",
+                  fontSize: "12px",
+                  color: "#f8d7da",
+                  marginBottom: "12px",
+                  borderLeft: "3px solid #dc3545",
+                }}
+              >
+                <strong>⚠️ Problema:</strong>{" "}
+                {currentPrinciple.badCode.explanation}
               </div>
 
               <button
@@ -1080,10 +1133,18 @@ export const POOExplorer: React.FC = () => {
               >
                 {isLoading.bad ? "Ejecutando..." : "▶ Ver en acción"}
               </button>
-              
+
               {badOutput.length > 0 && (
                 <div style={styles.output}>
-                  <div style={{ marginBottom: "8px", color: "#aaa", fontSize: "10px" }}>RESULTADO:</div>
+                  <div
+                    style={{
+                      marginBottom: "8px",
+                      color: "#aaa",
+                      fontSize: "10px",
+                    }}
+                  >
+                    RESULTADO:
+                  </div>
                   {badOutput.map((line, i) => (
                     <div key={i}>{line || "\u00A0"}</div>
                   ))}
@@ -1099,32 +1160,39 @@ export const POOExplorer: React.FC = () => {
             </div>
             <div style={styles.demoContent}>
               {/* Code Example */}
-              <pre style={{
-                margin: "0 0 12px 0",
-                padding: "12px",
-                backgroundColor: "#1a2e1a",
-                borderRadius: "6px",
-                fontSize: "11px",
-                lineHeight: "1.5",
-                overflow: "auto",
-                maxHeight: "280px",
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word",
-              }}>
-                <code style={{ color: "#e8e8e8" }}>{currentPrinciple.goodCode.code}</code>
+              <pre
+                style={{
+                  margin: "0 0 12px 0",
+                  padding: "12px",
+                  backgroundColor: "#1a2e1a",
+                  borderRadius: "6px",
+                  fontSize: "11px",
+                  lineHeight: "1.5",
+                  overflow: "auto",
+                  maxHeight: "280px",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                }}
+              >
+                <code style={{ color: "#e8e8e8" }}>
+                  {currentPrinciple.goodCode.code}
+                </code>
               </pre>
-              
+
               {/* Explanation */}
-              <div style={{
-                padding: "10px 12px",
-                backgroundColor: "#1a2a1a",
-                borderRadius: "6px",
-                fontSize: "12px",
-                color: "#d4edda",
-                marginBottom: "12px",
-                borderLeft: "3px solid #28a745",
-              }}>
-                <strong>✅ Solución:</strong> {currentPrinciple.goodCode.explanation}
+              <div
+                style={{
+                  padding: "10px 12px",
+                  backgroundColor: "#1a2a1a",
+                  borderRadius: "6px",
+                  fontSize: "12px",
+                  color: "#d4edda",
+                  marginBottom: "12px",
+                  borderLeft: "3px solid #28a745",
+                }}
+              >
+                <strong>✅ Solución:</strong>{" "}
+                {currentPrinciple.goodCode.explanation}
               </div>
 
               <button
@@ -1134,10 +1202,18 @@ export const POOExplorer: React.FC = () => {
               >
                 {isLoading.good ? "Ejecutando..." : "▶ Ver en acción"}
               </button>
-              
+
               {goodOutput.length > 0 && (
                 <div style={styles.output}>
-                  <div style={{ marginBottom: "8px", color: "#aaa", fontSize: "10px" }}>RESULTADO:</div>
+                  <div
+                    style={{
+                      marginBottom: "8px",
+                      color: "#aaa",
+                      fontSize: "10px",
+                    }}
+                  >
+                    RESULTADO:
+                  </div>
                   {goodOutput.map((line, i) => (
                     <div key={i}>{line || "\u00A0"}</div>
                   ))}
@@ -1150,26 +1226,70 @@ export const POOExplorer: React.FC = () => {
 
       {/* Quick Reference */}
       <div style={{ ...styles.card, backgroundColor: "#f8f9fa" }}>
-        <h3 style={{ margin: "0 0 15px 0", fontSize: "16px" }}>📚 Referencia Rápida</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "15px" }}>
+        <h3 style={{ margin: "0 0 15px 0", fontSize: "16px" }}>
+          📚 Referencia Rápida
+        </h3>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "15px",
+          }}
+        >
           <div>
             <strong>POO Básico:</strong>
-            <ul style={{ margin: "5px 0", paddingLeft: "20px", fontSize: "13px", color: "#555" }}>
-              <li><strong>Encapsulamiento:</strong> Estado privado + métodos públicos</li>
-              <li><strong>Abstracción:</strong> Interfaces definen QUÉ, no CÓMO</li>
-              <li><strong>Herencia:</strong> Solo cuando hay relación ES-UN</li>
-              <li><strong>Polimorfismo:</strong> Mismo método, diferente comportamiento</li>
-              <li><strong>Composición:</strong> TIENE-UN en lugar de ES-UN</li>
+            <ul
+              style={{
+                margin: "5px 0",
+                paddingLeft: "20px",
+                fontSize: "13px",
+                color: "#555",
+              }}
+            >
+              <li>
+                <strong>Encapsulamiento:</strong> Estado privado + métodos
+                públicos
+              </li>
+              <li>
+                <strong>Abstracción:</strong> Interfaces definen QUÉ, no CÓMO
+              </li>
+              <li>
+                <strong>Herencia:</strong> Solo cuando hay relación ES-UN
+              </li>
+              <li>
+                <strong>Polimorfismo:</strong> Mismo método, diferente
+                comportamiento
+              </li>
+              <li>
+                <strong>Composición:</strong> TIENE-UN en lugar de ES-UN
+              </li>
             </ul>
           </div>
           <div>
             <strong>SOLID:</strong>
-            <ul style={{ margin: "5px 0", paddingLeft: "20px", fontSize: "13px", color: "#555" }}>
-              <li><strong>SRP:</strong> Una clase, una responsabilidad</li>
-              <li><strong>OCP:</strong> Extender sin modificar</li>
-              <li><strong>LSP:</strong> Subtipos sustituibles</li>
-              <li><strong>ISP:</strong> Interfaces pequeñas y específicas</li>
-              <li><strong>DIP:</strong> Depender de abstracciones</li>
+            <ul
+              style={{
+                margin: "5px 0",
+                paddingLeft: "20px",
+                fontSize: "13px",
+                color: "#555",
+              }}
+            >
+              <li>
+                <strong>SRP:</strong> Una clase, una responsabilidad
+              </li>
+              <li>
+                <strong>OCP:</strong> Extender sin modificar
+              </li>
+              <li>
+                <strong>LSP:</strong> Subtipos sustituibles
+              </li>
+              <li>
+                <strong>ISP:</strong> Interfaces pequeñas y específicas
+              </li>
+              <li>
+                <strong>DIP:</strong> Depender de abstracciones
+              </li>
             </ul>
           </div>
         </div>
